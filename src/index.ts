@@ -5,7 +5,7 @@ import { PrismaClient } from '@prisma/client';
 const client = new PrismaClient();
 
 const app = express();
-
+app.use(express.json());
 
 app.get('/', async (req, res) => {
 
@@ -14,10 +14,11 @@ app.get('/', async (req, res) => {
 });
 app.post('/', async (req, res) => {
 
+    const {username, password} = req.body;
     await client.user.create({
         data:{
-            username: Math.random().toString(36).substring(7),
-            password: Math.random().toString(36).substring(7)
+            username,
+            password
         }
     })
     res.send('user created');
